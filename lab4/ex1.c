@@ -22,7 +22,7 @@ int bufp = 0;
 int main(void)
 {
     int type;
-    double op1, op2;
+    double op2, op1;
     char s[MAXOP];
 
     while ((type = getop(s)) != EOF)
@@ -35,22 +35,27 @@ int main(void)
         case '+':
             push(pop() + pop());
             break;
+        case '*':
+            push(pop() * pop());
+            break;
         case '-':
             op2 = pop();
             push(pop() - op2);
             break;
-        case '*':
-            push(pop() * pop());
-            break;
         case '/':
             op2 = pop();
             if (op2 != 0.0)
+            {
                 push(pop() / op2);
-            else printf("error: zero divisor\n");
+            }
+            else
+            {
+                printf("error: zero divisor\n");
+            }
             break;
-            case '%':
+        case '%':
             op2 = pop();
-            if (op2 != 0)
+            if (op2 != 0.0)
             {
                 push((int)pop() % (int)op2);
             }
@@ -59,53 +64,58 @@ int main(void)
                 printf("error: zero divisor\n");
             }
             break;
-        case 'q': /*print the top element of the stack*/
+            case 'q':/* print the top element of the stack*/
             op1 = pop();
             printf("\t%.8g\n", op1);
             push(op1);
             break;
-        case 'w': /*copy the top element of the stack*/
+            case 'w':/*copy the top element of the stack */
             op1 = pop();
             push(op1);
             push(op1);
             break;
-        case 'e': /*swap the values of the two elements at the top of the stack*/
+            case 'e':/*swap the values of the two elements at the top of the stack */
             op1 = pop();
             op2 = pop();
             push(op1);
             push(op2);
             break;
-        case 'r': /*empty stack*/
+            case'r':/*empty stack */
             a();
             break;
         case '\n':
-            printf("\t%.8g\n", pop());
+            printf("栈的值是%.8g\n", pop());
             break;
         default:
-            printf("error : unknown command %s\n", s);
+            printf("error: unknow command %s\n", s);
             break;
         }
     }
     return 0;
 }
 
-void a(void)
-{
+void a(void){
     sp = 0;
 }
 
 void push(double f)
 {
     if (sp < MAXVAL)
+    {
         val[sp++] = f;
+    }
     else
+    {
         printf("error: stack full, can't push %g\n", f);
+    }
 }
 
 double pop(void)
 {
     if (sp > 0)
+    {
         return val[--sp];
+    }
     else
     {
         printf("error: stack empty\n");
@@ -116,20 +126,33 @@ double pop(void)
 int getop(char s[])
 {
     int i, c;
-
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    if (isdigit(c) && c != '.')
-        return c;
     i = 0;
+    if (!isdigit(c) && c != '.' && c != '-' )
+        return c;
+    if(c == '-'){
+        if(isdigit(c = getch()) || c == '.'){
+            s[++i] = c;
+        }
+        else{
+            if(c != EOF){
+                ungetch(c);
+            }
+            return '-';
+        }
+    }
     if (isdigit(c))
         while (isdigit(s[++i] = c = getch()))
             ;
+
     if (c == '.')
         while (isdigit(s[++i] = c = getch()))
             ;
+
     s[i] = '\0';
+
     if (c != EOF)
         ungetch(c);
     return NUMBER;
