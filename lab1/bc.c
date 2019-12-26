@@ -1,27 +1,22 @@
-#include<stdio.h>
-#include <stdlib.h>
-
-
-int main(void){
+#include <stdio.h>
+int bitcount(unsigned x);
+int main (void)
+{
     int n;
-    int i=0;
-    int a[100];
-    int count=0;
-    printf("请输入一个十进制正整数：\n");
-    scanf("%d",&n);
-    printf("对应的二进制整数是:");
-    while (n){
-            a[i]=n%2;
-            i++;
-            n/=2;
-    }
-    for(int j=i-1;j>=0;j--){
-           printf("%d",a[j]);
-           if(a[j]==1){
-                      count++;
-           }
-    }
-    printf("\n\"1\"出现的次数是%d\n",count);
-    system("pause");
+    printf("Input n:\n");
+    scanf("%d", &n);
+    printf("%d\n", bitcount(n));
     return 0;
+    }
+int bitcount(unsigned x)
+{
+    int b;
+    for(b = 0;x != 0; x >>=1)
+    {
+        if(x & 01)
+        {
+            b++;
+        }
+    }
+    return b;
 }
