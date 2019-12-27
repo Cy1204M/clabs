@@ -1,32 +1,32 @@
 #include <stdio.h>
-int BITMAX(unsigned x);
+int bitcount(unsigned x);
 int main(void)
 {
-    char Y[6];
-    int k = 0;
-    int m = 0;
-    while (k<7)
+    char X[6];
+    int i;
+    int n = 0;
+    for (i = 0; i < 7; i = i + 1)
     {
-        Y[k] = getchar();
-        if(Y[k] == '\n')
+        X[i] = getchar();
+        if(X[i] == '\n')
         {
             break;
         }
-        m = m * 10 + (Y[k] - '0');
-        k++ ;
+        n = n*10 + (X[i] - '0');
     }
-    printf("\1的个数%d\n", BITMAX(m));
+    printf("二进制中1的个数是%d\n", bitcount(n));
     return 0;
 }
-int BITMAX( unsigned x )
+int bitcount(unsigned x)
 {
     int b;
-    for(b =0;x !=0; x >>=1)
+    for (b = 0; x != 0; x >>= 1)
     {
         if (x & 01)
         {
             b++;
         }
     }
-    return b ;
+    return b;
 }
+
