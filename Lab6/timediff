@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     len = strlen(argv[2]);
     getop(argv[2]);
     k = day_of_year(x, y, z);
-    printf("%d", k - l + year(m, x));
+    printf("%d\n", k - l + year(m, x) + 1);
 }
 
 void clear(void)
